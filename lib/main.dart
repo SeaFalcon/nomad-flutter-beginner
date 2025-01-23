@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:toonflix/widgets/card_practice.dart';
+import 'package:toonflix/widgets/screencs/card_practice.dart';
 import 'package:toonflix/widgets/initialPage.dart';
-import 'package:toonflix/widgets/state_practice.dart';
-import 'package:toonflix/widgets/state_practice2.dart';
+import 'package:toonflix/widgets/screencs/pomodoro.dart';
+import 'package:toonflix/widgets/screencs/state_practice.dart';
+import 'package:toonflix/widgets/screencs/state_practice2.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -12,7 +13,7 @@ void main() {
       '/life-cycle': ((context) => StatePractice2()),
       '/stateful': ((context) => StatePractice()),
       '/card': ((context) => CardPractice()),
-      // '/pomodoro': ((context) => Pomodoro()),
+      '/pomodoro': ((context) => Pomodoro()),
     },
   ));
 }

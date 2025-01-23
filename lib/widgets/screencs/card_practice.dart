@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:toonflix/widgets/button.dart';
-import 'package:toonflix/widgets/currency_cart.dart';
+import 'package:toonflix/widgets/components/button.dart';
+import 'package:toonflix/widgets/components/currency_cart.dart';
 
 class CardPractice extends StatelessWidget {
   const CardPractice({

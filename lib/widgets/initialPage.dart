@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:toonflix/widgets/button.dart';
+import 'package:toonflix/widgets/components/button.dart';
 
 class InitialPage extends StatelessWidget {
   @override
