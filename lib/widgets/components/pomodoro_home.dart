@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:toonflix/main.dart';
 
@@ -11,6 +13,48 @@ class PomodoroHome extends StatefulWidget {
 }
 
 class _PomodoroHomeState extends State<PomodoroHome> {
+  static const twentyfiveMinutes = 1500;
+
+  int totalSeconds = twentyfiveMinutes;
+  bool isRunning = false;
+  int totalPomodoros = 0;
+  late Timer timer;
+
+  void onTick(Timer timer) {
+    if (totalSeconds == 0) {
+      setState(() {
+        totalPomodoros += 1;
+        isRunning = false;
+        totalSeconds = twentyfiveMinutes;
+        timer.cancel();
+      });
+    } else {
+      setState(() {
+        totalSeconds -= 1;
+      });
+    }
+  }
+
+  void onStartPressed() {
+    timer = Timer.periodic(Duration(seconds: 1), onTick);
+    setState(() {
+      isRunning = true;
+    });
+  }
+
+  void onPausePressed() {
+    timer.cancel();
+    setState(() {
+      isRunning = false;
+    });
+  }
+
+  String format(int seconds) {
+    var duration = Duration(seconds: seconds);
+    var [hour, min, sec] = duration.toString().split('.').first.split(':');
+    return '$min:$sec';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +71,7 @@ class _PomodoroHomeState extends State<PomodoroHome> {
             child: Container(
               alignment: Alignment.center,
               child: Text(
-                '25:00',
+                format(totalSeconds),
                 style: TextStyle(
                   color: Theme.of(context).cardColor,
                   fontSize: 89,
@@ -40,8 +84,11 @@ class _PomodoroHomeState extends State<PomodoroHome> {
             flex: 3,
             child: Center(
               child: IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.play_circle_outlined),
+                onPressed: () =>
+                    isRunning ? onPausePressed() : onStartPressed(),
+                icon: Icon(isRunning
+                    ? Icons.pause_circle_outline
+                    : Icons.play_circle_outlined),
                 iconSize: 120,
                 color: Theme.of(context).cardColor,
               ),
@@ -55,6 +102,10 @@ class _PomodoroHomeState extends State<PomodoroHome> {
                   child: Container(
                     decoration: BoxDecoration(
                       color: Theme.of(context).cardColor,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(50),
+                        topRight: Radius.circular(50),
+                      ),
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -71,7 +122,7 @@ class _PomodoroHomeState extends State<PomodoroHome> {
                           ),
                         ),
                         Text(
-                          '0',
+                          '$totalPomodoros',
                           style: TextStyle(
                             fontSize: 58,
                             fontWeight: FontWeight.w600,
