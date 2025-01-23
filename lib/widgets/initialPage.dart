@@ -36,6 +36,16 @@ class InitialPage extends StatelessWidget {
                   backgroundColor: Colors.pink[200],
                 ),
                 child: Text('Pomodoro'),
+              ),
+              TextButton(
+                onPressed: () => handleClickChangeScreen('pomodoro-challenge'),
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.red[500],
+                ),
+                child: Text(
+                  'Pomodoro Challenge',
+                  style: TextStyle(color: Colors.white),
+                ),
               )
             ],
           )),
