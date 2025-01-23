@@ -15,6 +15,14 @@ class CardPractice extends StatelessWidget {
 
     return MaterialApp(
         home: Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => {Navigator.pushNamed(context, '/')},
+          icon: Icon(Icons.arrow_back),
+        ),
+        title: Text('Card Practice'),
+        backgroundColor: Colors.yellow[100],
+      ),
       backgroundColor: Color(0xff181818),
       body: SingleChildScrollView(
         child: Padding(

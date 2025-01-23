@@ -36,6 +36,14 @@ class _StatePractice2 extends State<StatePractice2> {
         ),
       ),
       home: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () => {Navigator.pushNamed(context, '/')},
+            icon: Icon(Icons.arrow_back),
+          ),
+          title: Text('StateFul Widget LifeCycle'),
+          backgroundColor: Colors.yellow[100],
+        ),
         backgroundColor: Color(0xfff4eddb),
         body: Center(
           child: Column(
@@ -47,11 +55,11 @@ class _StatePractice2 extends State<StatePractice2> {
                 onPressed: handleClickCounter,
                 icon: Icon(Icons.add_box),
               ),
-              IconButton(
-                iconSize: 40,
-                onPressed: handleClickChange,
-                icon: Icon(Icons.change_circle),
-              )
+              // IconButton(
+              //   iconSize: 40,
+              //   onPressed: handleClickChange,
+              //   icon: Icon(Icons.change_circle),
+              // )
             ],
           ),
         ),
