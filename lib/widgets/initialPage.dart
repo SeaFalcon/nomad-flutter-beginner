@@ -46,6 +46,16 @@ class InitialPage extends StatelessWidget {
                   'Pomodoro Challenge',
                   style: TextStyle(color: Colors.white),
                 ),
+              ),
+              TextButton(
+                onPressed: () => handleClickChangeScreen('toonflix'),
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.limeAccent[400],
+                ),
+                child: Text(
+                  'Toonflix',
+                  style: TextStyle(color: Colors.black),
+                ),
               )
             ],
           )),
