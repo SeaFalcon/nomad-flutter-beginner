@@ -1,36 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:toonflix/models/webtoon.dart';
 import 'package:toonflix/services/api_services.dart';
+import 'package:toonflix/widgets/components/webtoon.dart';
+import 'package:toonflix/widgets/components/webtoon_detail.dart';
 
-class Toonflix extends StatefulWidget {
-  const Toonflix({super.key});
+class Toonflix extends StatelessWidget {
+  Toonflix({super.key});
 
-  @override
-  State<Toonflix> createState() => _ToonflixState();
-}
-
-class _ToonflixState extends State<Toonflix> {
-  List<WebtoonModel> webtoons = [];
-  bool isLoading = true;
-
-  void waitForWebtoons() async {
-    webtoons = await ApiServices.getTodaysToons();
-    isLoading = false;
-
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    waitForWebtoons();
-  }
+  final Future<List<WebtoonModel>> webtoons = ApiServices.getTodaysToons();
 
   @override
   Widget build(BuildContext context) {
-    print(webtoons);
-    print(isLoading);
-
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.white,
@@ -46,8 +26,40 @@ class _ToonflixState extends State<Toonflix> {
           backgroundColor: Colors.white,
           elevation: 2,
         ),
-        body: Container(),
+        body: FutureBuilder(
+          future: webtoons,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Column(
+                children: [
+                  SizedBox(height: 50),
+                  Expanded(child: makeList(snapshot)),
+                ],
+              );
+            }
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+        ),
       ),
+    );
+  }
+
+  ListView makeList(AsyncSnapshot<List<WebtoonModel>> snapshot) {
+    return ListView.separated(
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      scrollDirection: Axis.horizontal,
+      itemCount: snapshot.data!.length,
+      itemBuilder: (context, index) {
+        var webtoon = snapshot.data![index];
+        return WebToon(
+          title: webtoon.title,
+          thumb: webtoon.thumb,
+          id: webtoon.id,
+        );
+      },
+      separatorBuilder: (context, index) => SizedBox(width: 40),
     );
   }
 }
