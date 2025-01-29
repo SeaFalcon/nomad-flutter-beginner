@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:toonflix/models/webtoon.dart';
 import 'package:toonflix/services/api_services.dart';
 import 'package:toonflix/widgets/components/webtoon.dart';
-import 'package:toonflix/widgets/components/webtoon_detail.dart';
 
 class Toonflix extends StatelessWidget {
   Toonflix({super.key});

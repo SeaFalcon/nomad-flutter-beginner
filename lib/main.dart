@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:toonflix/widgets/initialPage.dart';
 import 'package:toonflix/widgets/screencs/card_practice.dart';
 import 'package:toonflix/widgets/screencs/flipclock.dart';
+import 'package:toonflix/widgets/screencs/movieflix.dart';
 import 'package:toonflix/widgets/screencs/pomodoro.dart';
 import 'package:toonflix/widgets/screencs/pomodoro_challenge.dart';
 import 'package:toonflix/widgets/screencs/state_practice.dart';
@@ -20,6 +21,7 @@ void main() {
       '/pomodoro-challenge': ((context) => PomodoroChallenge()),
       '/flip-clock': ((context) => FlipClock()),
       '/toonflix': ((context) => Toonflix()),
+      '/movieflix': ((context) => Movieflix()),
     },
   ));
 }

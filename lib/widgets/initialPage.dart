@@ -55,6 +55,16 @@ class InitialPage extends StatelessWidget {
                   'Toonflix',
                   style: TextStyle(color: Colors.black),
                 ),
+              ),
+              TextButton(
+                onPressed: () => handleClickChangeScreen('movieflix'),
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.blue[400],
+                ),
+                child: Text(
+                  'Movieflix',
+                  style: TextStyle(color: Colors.black),
+                ),
               )
             ],
           )),

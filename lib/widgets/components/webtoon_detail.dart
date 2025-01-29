@@ -4,7 +4,6 @@ import 'package:toonflix/models/webtoon_detail.dart';
 import 'package:toonflix/models/webtoon_episode_detail.dart';
 import 'package:toonflix/services/api_services.dart';
 import 'package:toonflix/widgets/components/webtoon_episode.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class WebtoonDetail extends StatefulWidget {
   final String title, thumb, id;
