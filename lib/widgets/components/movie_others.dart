@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:toonflix/models/movie_model.dart';
 import 'package:toonflix/services/movie_api_services.dart';
+import 'package:toonflix/widgets/components/movie_detail.dart';
 
 class OtherMovie extends StatelessWidget {
   final MovieModel movie;
@@ -11,14 +12,22 @@ class OtherMovie extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-          clipBehavior: Clip.hardEdge,
-          width: MediaQuery.of(context).size.width * .35,
-          height: MediaQuery.of(context).size.width * .35,
-          child: Image.network(
-            '${MovieApiServices.imageBaseUrl}${movie.posterPath}',
-            fit: BoxFit.cover,
+        GestureDetector(
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MovieDetail(movieDetail: movie),
+            ),
+          ),
+          child: Container(
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+            clipBehavior: Clip.hardEdge,
+            width: MediaQuery.of(context).size.width * .35,
+            height: MediaQuery.of(context).size.width * .35,
+            child: Image.network(
+              '${MovieApiServices.imageBaseUrl}${movie.posterPath}',
+              fit: BoxFit.cover,
+            ),
           ),
         ),
         SizedBox(
