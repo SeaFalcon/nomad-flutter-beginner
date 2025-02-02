@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:toonflix/models/movie_model.dart';
-import 'package:toonflix/services/movie_api_services.dart';
-import 'package:toonflix/widgets/components/movie_others.dart';
-import 'package:toonflix/widgets/components/movie_popular.dart';
+import 'package:toonflix/widgets/components/movieflix_main.dart';
 
 class Movieflix extends StatefulWidget {
   const Movieflix({super.key});
@@ -12,135 +9,45 @@ class Movieflix extends StatefulWidget {
 }
 
 class _MovieflixState extends State<Movieflix> {
-  late Future<List<MovieModel>> popularMovies;
-  late Future<List<MovieModel>> nowPlayingMovies;
-  late Future<List<MovieModel>> comingSoonMovies;
+  int _selectedIndex = 0;
+  // 탭에 따른 화면
+  final List<Widget> _screens = [
+    MovieflixMain(),
+    Center(child: Text('Home Screen', style: TextStyle(fontSize: 24))),
+    Center(child: Text('Search Screen', style: TextStyle(fontSize: 24))),
+    Center(child: Text('Profile Screen', style: TextStyle(fontSize: 24))),
+  ];
 
-  @override
-  void initState() {
-    super.initState();
-    popularMovies = MovieApiServices.getMoviesByFilter(0);
-    nowPlayingMovies = MovieApiServices.getMoviesByFilter(1);
-    comingSoonMovies = MovieApiServices.getMoviesByFilter(2);
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: SafeArea(
-            child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 50,
-                    ),
-                    Text(
-                      'Popular Movies',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.3,
-                      child: FutureBuilder(
-                        future: popularMovies,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return makePopular(snapshot);
-                          }
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                renderOtherMovies(
-                  context: context,
-                  type: 'Now in Cinemas',
-                  movies: nowPlayingMovies,
-                ),
-                renderOtherMovies(
-                  context: context,
-                  type: 'Coming soon',
-                  movies: comingSoonMovies,
-                ),
-              ],
-            ),
-          ),
-        )),
+        appBar: AppBar(
+          title: Text('Movieflix'),
+        ),
+        body: _screens[_selectedIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          items: [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.movie_filter_outlined), label: 'Movieflix'),
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          ],
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+          selectedItemColor: Colors.black,
+          unselectedItemColor: Colors.grey,
+          iconSize: 30,
+          selectedIconTheme: IconThemeData(color: Colors.green),
+        ),
       ),
-    );
-  }
-
-  Column renderOtherMovies({
-    required BuildContext context,
-    required String type,
-    required Future<List<MovieModel>> movies,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          type,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w800,
-          ),
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.28,
-          child: FutureBuilder(
-            future: movies,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return makeOtherMovie(snapshot);
-              }
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  ListView makePopular(AsyncSnapshot<List<MovieModel>> snapshot) {
-    return ListView.separated(
-      padding: EdgeInsets.symmetric(vertical: 20),
-      scrollDirection: Axis.horizontal,
-      itemCount: snapshot.data!.length,
-      itemBuilder: (context, index) {
-        var movieItem = snapshot.data![index];
-        return PopularMovie(popularMovie: movieItem);
-      },
-      separatorBuilder: (context, index) {
-        return SizedBox(width: 15);
-      },
-    );
-  }
-
-  ListView makeOtherMovie(AsyncSnapshot<List<MovieModel>> snapshot) {
-    return ListView.separated(
-      padding: EdgeInsets.symmetric(vertical: 20),
-      scrollDirection: Axis.horizontal,
-      itemCount: snapshot.data!.length,
-      itemBuilder: (context, index) {
-        var movieItem = snapshot.data![index];
-        return OtherMovie(movie: movieItem);
-      },
-      separatorBuilder: (context, index) {
-        return SizedBox(width: 15);
-      },
     );
   }
 }

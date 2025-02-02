@@ -222,7 +222,9 @@ class _MovieDetailState extends State<MovieDetail> {
               ),
             );
           }
-          return Text('111222');
+          return Center(
+            child: CircularProgressIndicator(),
+          );
         },
       ),
     );
